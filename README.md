@@ -1,4 +1,4 @@
-# Real-Time Flask Dashboard Control (12 Boxes)
+# IoT API Simulation Dashboard Control by Flask
 
 A lightweight, real-time web application built with **Flask** and **Vanilla JavaScript**. This project features a 12-box grid system designed to simulate IoT environments with Sensor (Read) and Actuator (Write) capabilities via RESTful APIs.
 
