@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test Bench</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background-color: #f4f4f9; }
+        table { width: 100%; border-collapse: collapse; background: white; margin-bottom: 30px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #333; color: white; }
+        .endpoint { font-family: monospace; color: #d9534f; font-weight: bold; }
+        .result-cell { font-weight: bold; color: #0275d8; min-width: 100px; }
+        button { cursor: pointer; padding: 5px 15px; }
+        input { padding: 5px; width: 80px; }
+        .header-sensor { background-color: #e7f3ff; font-weight: bold; }
+        .header-actuator { background-color: #fff4e5; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <h2>API Testing Console (Localhost:5050)</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Col 1: API Endpoint</th>
+                <th>Col 2: Action / Input</th>
+                <th>Col 3: Result / Submit</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="header-sensor"><td colspan="3">Sensor Group (Read values from UI)</td></tr>
+            <script>
+                for(let i=1; i<=6; i++) {
+                    document.write(`
+                        <tr>
+                            <td class="endpoint">http://localhost:5050/box${i}/read</td>
+                            <td><button onclick="readApi(${i})">READ</button></td>
+                            <td id="result${i}" class="result-cell">-</td>
+                        </tr>
+                    `);
+                }
+            </script>
+
+            <tr class="header-actuator"><td colspan="3">Actuator Group (Write values to UI)</td></tr>
+            <script>
+                for(let i=7; i<=12; i++) {
+                    document.write(`
+                        <tr>
+                            <td class="endpoint">http://localhost:5050/box${i}/write/{val}</td>
+                            <td><input type="text" id="input${i}" placeholder="Value"></td>
+                            <td><button onclick="writeApi(${i})">SUBMIT</button></td>
+                        </tr>
+                    `);
+                }
+            </script>
+        </tbody>
+    </table>
+
+    <script>
+        /**
+         * AJAX function to GET data from a specific box.
+         * Used for boxes 1-6.
+         */
+        async function readApi(boxNum) {
+            const resultCell = document.getElementById(`result${boxNum}`);
+            resultCell.innerText = "Loading...";
+            try {
+                const response = await fetch(`http://localhost:5050/box${boxNum}/read`);
+                const data = await response.json();
+                // Display only the value part of the JSON response
+                resultCell.innerText = data[`box${boxNum}`];
+            } catch (err) {
+                resultCell.innerText = "Error";
+                console.error(err);
+            }
+        }
+
+        /**
+         * AJAX function to POST/GET data to a specific box.
+         * Used for boxes 7-12.
+         */
+        async function writeApi(boxNum) {
+            const val = document.getElementById(`input${boxNum}`).value;
+            if (val === "") {
+                alert("Please enter a value");
+                return;
+            }
+            try {
+                const response = await fetch(`http://localhost:5050/box${boxNum}/write/${encodeURIComponent(val)}`);
+                const data = await response.json();
+                if(data.status === "success") {
+                    console.log(`Box ${boxNum} updated successfully`);
+                    // Optional: Visual feedback
+                    document.getElementById(`input${boxNum}`).style.backgroundColor = "#d4edda";
+                    setTimeout(() => {
+                        document.getElementById(`input${boxNum}`).style.backgroundColor = "";
+                    }, 500);
+                }
+            } catch (err) {
+                alert("Write failed. Check if server is running.");
+                console.error(err);
+            }
+        }
+    </script>
+</body>
+</html>
