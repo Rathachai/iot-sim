@@ -34,4 +34,4 @@ def write_api(box_id, content):
 
 if __name__ == '__main__':
     # Run server on port 5050
-    app.run(port=5050, debug=True)
+    app.run(host='0.0.0.0', port=5050, debug=True)

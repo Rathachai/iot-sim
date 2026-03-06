@@ -93,3 +93,22 @@ API Test Bench: http://localhost:5050/test
 ### Final Setup Tips:
 1. **The Images**: Ensure you have `v0.png`, `v1.png`, `v2.png`, `v3.png`, `vx.png`, and `fan.png` inside the `static` folder.
 2. **CORS**: Ensure `app.py` has `CORS(app)` enabled so the `test.html` page can communicate with the APIs without browser blocks.
+
+## Docker
+
+### From Dockerfile
+
+1. **Build Image**
+```bash
+docker build -t iot-sim .
+```
+
+2. **Run Container**
+```bash
+docker run -p 5050:5050 iot-sim
+```
+
+### From Docker Hub
+```bash
+docker run -d --name my-iot-sim rathachai/iot-sim:v1.0
+```
