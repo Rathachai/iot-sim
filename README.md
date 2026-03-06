@@ -110,5 +110,5 @@ docker run -p 5050:5050 iot-sim
 
 ### From Docker Hub
 ```bash
-docker run -d --name my-iot-sim rathachai/iot-sim:v1.0
+docker run -d --name my-iot-sim -p 5050:5050 rathachai/iot-sim:v1.0
 ```
