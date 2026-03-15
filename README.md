@@ -105,10 +105,20 @@ docker build -t iot-sim .
 
 2. **Run Container**
 ```bash
-docker run -p 5050:5050 iot-sim
+docker run -p 5050:5050 -p 8000:8000 iot-sim
 ```
 
 ### From Docker Hub
 ```bash
-docker run -d --name my-iot-sim -p 5050:5050 rathachai/iot-sim:v1.0
+docker run -d --name my-iot-sim -p 5050:5050 rathachai/iot-sim:v2.0
+```
+
+## Connect to MCP Server
+Connect at
+```
+http://localhost:8000/mcp
+``` 
+or 
+```
+http://host.docker.internal:8000/mcp 
 ```
