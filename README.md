@@ -110,7 +110,7 @@ docker run -p 5050:5050 -p 8000:8000 iot-sim
 
 ### From Docker Hub
 ```bash
-docker run -d --name my-iot-sim -p 5050:5050 rathachai/iot-sim:v2.0
+docker run -d --name my-iot-sim -p 5050:5050 -p 8000:8000 rathachai/iot-sim:v2.0
 ```
 
 ## Connect to MCP Server
